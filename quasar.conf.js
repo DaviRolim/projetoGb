@@ -1,5 +1,7 @@
 // Configuration for your app
-
+const DotEnv = require('dotenv')
+const webpack = require('webpack')
+const envparser = require('./config/envparser')
 module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
@@ -27,6 +29,7 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
+      env: envparser(),
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
