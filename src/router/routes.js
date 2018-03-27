@@ -14,6 +14,10 @@ export default [
     path: '/cardapio',
     component: () => import('../pages/cardapio')
   },
+  {
+    path: '/carrinho',
+    component: () => import('../pages/carrinho')
+  },
 
   { // Always leave this as last one
     path: '*',
