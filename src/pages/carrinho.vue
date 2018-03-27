@@ -2,20 +2,10 @@
   <div>
     <q-layout>
         <q-layout-header>
- <!--     <q-toolbar
-        color="orange"
-        :glossy="$q.theme === 'mat'"
-        :inverted="$q.theme === 'ios'"
-      >
-        <q-toolbar-title>Guarana Brasil</q-toolbar-title>
-      </q-toolbar>   -->
           <q-tabs glossy inverted>
-            <!-- Tabs - notice slot="title" -->
             <q-route-tab to="/cardapio" default slot="title" name="tab-1" label="Cardápio"/>
             <q-route-tab to="/carrinho" slot="title" :count="getCountCarrinho" name="tab-2" label="Carrinho"/>
             <q-route-tab to="/historico" slot="title" name="tab-3" label="Histórico" />
-
-            <!-- Targets -->
           </q-tabs>
 
     </q-layout-header>
@@ -30,7 +20,8 @@
           :sublabel=item.dsProduto
           sublabel-lines="2"
         />
-      <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn>
+      <!-- <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn> -->
+      <q-btn round size="sm" color="red" icon="close" @click="removeDoCarrinho(item)"/>
        </q-item>
     </q-list>
 
@@ -38,7 +29,7 @@
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 export default {
   data () {
     return {
@@ -57,6 +48,23 @@ export default {
   methods: {
     valorProduto (valor) {
       return 'R$ ' + valor
+    },
+    ...mapActions('example', [
+      'addItem',
+      'removeItem'
+    ]),
+    removeDoCarrinho (item) {
+      this.$q.dialog({
+        title: 'Confirmação',
+        message: 'Deseja retirar esse item do carrinho?',
+        ok: 'Sim',
+        cancel: 'Não'})
+        .then(() => {
+          this.$q.notify({message: 'Item retirado do carrinho', type: 'positive'})
+          this.removeItem(item)
+        }).catch(() => {
+          console.log('Não tirou')
+        })
     }
   }
 }
