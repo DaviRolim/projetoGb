@@ -1,4 +1,3 @@
-/*
-export const someAction = (state) => {
+export const addItem = ({ commit }, obj) => {
+  commit('ADD_ITEM', obj)
 }
-*/

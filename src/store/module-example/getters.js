@@ -1,4 +1,3 @@
-/*
-export const someGetter = (state) => {
+export const getCarrinho = ({ state }) => {
+  return state.carrinho
 }
-*/

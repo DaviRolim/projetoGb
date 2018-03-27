@@ -1,15 +1,57 @@
 <template>
-    <div>
-        <div class="expense" v-for="(item, index) in listaCardapio" :key="index">
+  <div style="row justify-center width: 500px; max-width: 96vw;">
+    <q-layout>
+    <q-layout-header>
+      <q-toolbar
+        color="orange"
+        :glossy="$q.theme === 'mat'"
+        :inverted="$q.theme === 'ios'"
+      >
+        <q-toolbar-title>Guarana Brasil</q-toolbar-title>
+      </q-toolbar>
+          <q-tabs>
+            <!-- Tabs - notice slot="title" -->
+            <q-tab default count="5" slot="title" name="tab-1" icon="message" />
+            <q-tab disable slot="title" name="tab-2" icon="fingerprint" />
+            <q-tab alert slot="title" name="tab-3" icon="account_box" />
+            <q-tab slot="title" name="tab-4" icon="accessibility" />
+            <q-tab slot="title" name="tab-5" icon="build" />
+
+            <!-- Targets -->
+            <q-tab-pane name="tab-1">Tab One</q-tab-pane>
+            <q-tab-pane name="tab-2">Tab Two</q-tab-pane>
+            <q-tab-pane name="tab-3">Tab Three</q-tab-pane>
+            <q-tab-pane name="tab-4">Tab Four</q-tab-pane>
+            <q-tab-pane name="tab-5">Tab Five</q-tab-pane>
+          </q-tabs>
+
+    </q-layout-header>
+    <q-list highlight inset-separator>
+      <q-list-header>Cardápio</q-list-header>
+      <q-item multiline v-for="(item, index) in listaCardapio" :key="index">
+        <!-- <q-item-side avatar="statics/boy-avatar.png" /> -->
+        <q-item-main
+          :label=item.nmProduto
+          label-lines="1"
+          :sublabel=item.dsProduto
+          sublabel-lines="2"
+        />
+      <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn>
+       </q-item>
+    </q-list>
+        <!-- <div class="expense" v-for="(item, index) in listaCardapio" :key="index">
             <p :class="{ done: item.done }">{{ item.nmProduto }} - R$ {{ item.vlProduto }}</p>
             <p :class="{ done: item.done }">{{ item.dsProduto }}</p>
-            <!-- <q-btn href="#" color="red" class="removeLink" @click.prevent="askRemove(item)">REMOVER</q-btn> -->
-            <q-btn href="#" color="blue" class="removeLink" @click.prevent="mostra">REMOVER</q-btn>
-        </div>
-    </div>
+            <q-btn href="#" color="blue" class="on-left" @click.prevent="adicionarItem(item)">Adicionar</q-btn>
+            <q-btn href="#" color="red" class="removeLink" @click.prevent="mostra">Mostrar</q-btn>
+        </div> -->
+
+    </q-layout>
+  </div>
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
 export default {
   data () {
     return {
@@ -25,22 +67,44 @@ export default {
       })
     })
   },
+  computed: {
+    ...mapGetters('example', [
+      'getCarrinho'
+    ])
+  },
   methods: {
-    askRemove (expense) {
+    ...mapActions('example', [
+      'addItem'
+    ]),
+    retornaConcat (obj) {
+      return obj.nmProduto + '- R$' + obj.vlProduto
+    },
+    valorProduto (valor) {
+      return 'R$ ' + valor
+    },
+    dialogCarrinho (item) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Deseja realmente excluir?',
+        title: 'Confirmação',
+        message: 'Deseja adicionar ao carrinho?',
         ok: 'Sim',
         cancel: 'Não'})
         .then(() => {
-          this.$q.notify({message: 'Item excluido com sucesso', type: 'positive'})
-          this.remove(expense)
+          this.$q.notify({message: 'Item adicionado ao carrinho', type: 'positive'})
+          this.adicionarItem(item)
         }).catch(() => {
-          this.$q.notify('Life goes on')
+          console.log('nao comprou')
         })
     },
+    adicionarItem (item) {
+      const cloned = JSON.parse(JSON.stringify(item))
+      console.log(cloned)
+      this.addItem(cloned)
+      // same as
+      // this.$store.dispatch('example/addDespesa', this.expenses)
+    },
     mostra () {
-      console.log(this.listaCardapio[0].nmProduto)
+      // console.log(this.listaCardapio[0].nmProduto)
+      console.log(this.getCarrinho)
     }
   }
 }

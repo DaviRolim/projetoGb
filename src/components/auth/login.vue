@@ -65,7 +65,7 @@ export default {
   mounted () {
     this.$auth.onAuthStateChanged(user => {
       if (user) {
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/cardapio' })
       }
     })
   }

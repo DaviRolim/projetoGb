@@ -67,14 +67,19 @@ module.exports = function (ctx) {
         'QItemMain',
         'QItemSide',
         'QInput',
-        'QField'
+        'QField',
+        'QTabs',
+        'QTab',
+        'QTabPane',
+        'QRouteTab'
       ],
       directives: [
         'Ripple'
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Dialog'
       ]
     },
     // animations: 'all' --- includes all animations
