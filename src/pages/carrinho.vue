@@ -3,7 +3,7 @@
     <q-layout>
       <app-header></app-header>
       <q-page-container v-if="getCountCarrinho">
-       <q-list highlight inset-separator>
+       <q-list highlight inset-separator style="margin-bottom: 40px">
       <q-list-header >Carrinho</q-list-header>
       <q-item multiline v-for="(item, index) in listaCarrinho" :key="index">
         <q-item-main
@@ -16,6 +16,10 @@
        </q-item>
     </q-list>
     <q-input v-model="pedido.observacao" type="textarea" color="orange" :clearable=true float-label="Observação: " autofocus="true" />
+    <div class="text-center">
+      <p round-borders class="text-weight-light">TOTAL: R$ {{getTotal}}</p>
+    </div>
+    <q-btn v-if="getCountCarrinho" @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
     </q-page-container>
      <div v-if="!getCountCarrinho" class="fixed-center text-center">
     <p>
@@ -31,13 +35,7 @@
       @click="$router.push('/cardapio')"
     >Cardápio</q-btn>
   </div>
-    <q-layout-footer style="position: fixed">
-      <div class="text-center">
-        <p round-borders class="text-weight-light">TOTAL: R$ {{getTotal}}</p>
-      </div>
-      <q-btn v-if="getCountCarrinho" @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
-    </q-layout-footer>
-    </q-layout>
+  </q-layout>
   </div>
 </template>
 <script>
