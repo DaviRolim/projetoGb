@@ -6,7 +6,7 @@
         :inverted="$q.theme === 'ios'"
       >
         <q-toolbar-title>Guarana Brasil
-          <span slot="subtitle">
+          <span slot="subtitle" v-if="getUser">
             Logado com: {{ getUser }}
           </span>
         </q-toolbar-title>

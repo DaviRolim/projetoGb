@@ -18,6 +18,10 @@ export default [
     path: '/carrinho',
     component: () => import('../pages/carrinho')
   },
+  {
+    path: '/historico',
+    component: () => import('../pages/historico')
+  },
 
   { // Always leave this as last one
     path: '*',

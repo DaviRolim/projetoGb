@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div style="row justify-center width: 500px; max-width: 100vw;">
     <q-layout>
-      <app-header></app-header>
-      <q-page-container>
-       <q-list highlight inset-separator>
-      <q-list-header v-if="getCountCarrinho">Carrinho</q-list-header>
-      <q-item multiline v-for="(item, index) in listaCarrinho" :key="index">
+    <app-header></app-header>
+    <q-page-container>
+    <q-list highlight inset-separator>
+      <q-list-header v-if="getCountCarrinho">Historico</q-list-header>
+      <q-item multiline v-for="(item, index) in listaCardapio" :key="index">
         <!-- <q-item-side avatar="statics/boy-avatar.png" /> -->
         <q-item-main
           :label=item.nmProduto
@@ -13,11 +13,16 @@
           :sublabel=item.dsProduto
           sublabel-lines="2"
         />
-      <!-- <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn> -->
-      <q-btn round size="sm" color="red" icon="close" @click="removeDoCarrinho(item)"/>
+      <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn>
        </q-item>
     </q-list>
     </q-page-container>
+        <!-- <div class="expense" v-for="(item, index) in listaCardapio" :key="index">
+            <p :class="{ done: item.done }">{{ item.nmProduto }} - R$ {{ item.vlProduto }}</p>
+            <p :class="{ done: item.done }">{{ item.dsProduto }}</p>
+            <q-btn href="#" color="blue" class="on-left" @click.prevent="adicionarItem(item)">Adicionar</q-btn>
+            <q-btn href="#" color="red" class="removeLink" @click.prevent="mostra">Mostrar</q-btn>
+        </div> -->
 
     </q-layout>
   </div>
@@ -37,12 +42,11 @@ export default {
   },
   mounted () {
     console.log(this.getCarrinho)
-    this.listaCarrinho = this.getCarrinho
     console.log(this.getCountCarrinho)
     if (this.getCountCarrinho === 0) {
       this.$q.dialog({
         title: ';(',
-        message: 'O carrinho está vazio.'
+        message: 'Você ainda não fez compra'
       })
     }
   },
@@ -73,9 +77,28 @@ export default {
           console.log('Não tirou')
         })
     }
+  },
+  created: () => {
+    this.listaCarrinho = this.getCarrinho
   }
 }
 </script>
-<style>
 
+<style>
+    .done {
+      text-decoration: line-through;
+      color: #ccc;
+    }
+    .expense {
+        border-bottom: #999 1px solid;
+        position: relative;
+        cursor: pointer;
+    }
+    .removeLink {
+      color: #c00000;
+      position: absolute;
+      right: 0;
+      bottom: 10px;
+      font-size: 0.8em;
+    }
 </style>
