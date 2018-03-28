@@ -6,18 +6,16 @@
        <q-list highlight inset-separator>
       <q-list-header >Carrinho</q-list-header>
       <q-item multiline v-for="(item, index) in listaCarrinho" :key="index">
-        <!-- <q-item-side avatar="statics/boy-avatar.png" /> -->
         <q-item-main
           :label=item.nmProduto
           label-lines="1"
           :sublabel=item.dsProduto
           sublabel-lines="2"
         />
-      <!-- <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn> -->
       <q-btn round size="sm" color="red" icon="close" @click="removeDoCarrinho(item)"/>
        </q-item>
     </q-list>
-    <q-input v-model="pedido.observacao" type="textarea" clearable="true" float-label="Observação: " autofocus="true" />
+    <q-input v-model="pedido.observacao" type="textarea" color="orange" :clearable=true float-label="Observação: " autofocus="true" />
     </q-page-container>
      <div v-if="!getCountCarrinho" class="fixed-center text-center">
     <p>
