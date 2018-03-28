@@ -14,6 +14,7 @@
           <q-item-tile sublabel lines="2" v-for="(prod, index) in item.itens" :key="index">
             <span>{{prod.nmProduto}} - {{prod.vlProduto}}</span>
           </q-item-tile>
+          <q-item-tile sublabel>Observação: {{item.observacao}}</q-item-tile>
         </q-item-main>
        </q-collapsible>
     </q-list>
