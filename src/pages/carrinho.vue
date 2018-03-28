@@ -21,8 +21,22 @@
       TOTAL: R$ {{getTotal}}
     </div>
     </q-page-container>
-    <q-layout-footer>
-      <q-btn :class="{ disabled: getCountCarrinho == 0? true : false }" @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
+     <div v-if="!getCountCarrinho" class="fixed-center text-center">
+    <p>
+      <img
+        src="~assets/sad.svg"
+        style="width:30vw;max-width:150px;"
+      >
+    </p>
+    <p class="text-faded">O Carrinho está vazio</p>
+    <q-btn
+      color="secondary"
+      style="width:200px;"
+      @click="$router.push('/cardapio')"
+    >Cardápio</q-btn>
+  </div>
+    <q-layout-footer style="position: fixed">
+      <q-btn v-if="getCountCarrinho" @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
     </q-layout-footer>
     </q-layout>
   </div>
@@ -52,12 +66,12 @@ export default {
   mounted () {
     this.listaCarrinho = this.getCarrinho
     this.pedido.vlTotal = this.getTotal
-    if (this.getCountCarrinho === 0) {
-      this.$q.dialog({
-        title: ';(',
-        message: 'O carrinho está vazio.'
-      })
-    }
+    // if (this.getCountCarrinho === 0) {
+    //   this.$q.dialog({
+    //     title: ';(',
+    //     message: 'O carrinho está vazio.'
+    //   })
+    // }
   },
   computed: {
     ...mapGetters('example', [
@@ -82,7 +96,7 @@ export default {
         ok: 'Sim',
         cancel: 'Não'})
         .then(() => {
-          this.$q.notify({message: 'Item retirado do carrinho', type: 'positive'})
+          this.$q.notify({message: 'Item retirado do carrinho', type: 'positive', timeout: 500})
           this.removeItem(item)
         }).catch(() => {
           console.log('Não tirou')

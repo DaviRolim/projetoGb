@@ -70,7 +70,7 @@ export default {
         ok: 'Sim',
         cancel: 'Não'})
         .then(() => {
-          this.$q.notify({message: 'Item adicionado ao carrinho', type: 'positive'})
+          this.$q.notify({message: 'Item adicionado ao carrinho', type: 'positive', timeout: 500})
           this.adicionarItem(item)
         }).catch(() => {
           console.log('nao comprou')
