@@ -18,13 +18,16 @@
        </q-item>
     </q-list>
     </q-page-container>
-
+    <q-layout-footer>
+      <q-btn @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
+    </q-layout-footer>
     </q-layout>
   </div>
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import header from '../components/header'
+import moment from 'moment'
 export default {
   components: {
     appHeader: header
@@ -32,13 +35,18 @@ export default {
   data () {
     return {
       listaCarrinho: [],
-      carrinhoZero: 0
+      carrinhoZero: 0,
+      pedido: {
+        itens: [],
+        userId: '',
+        date: moment().format('DD/MM/YYYY HH:mm:ss'),
+        email: this.$user.email,
+        estado: 'Aguardando confirmação' // Aguardando Confirmação, Pedido Confirmado, Em preparo, Pedido concluído
+      }
     }
   },
   mounted () {
-    console.log(this.getCarrinho)
     this.listaCarrinho = this.getCarrinho
-    console.log(this.getCountCarrinho)
     if (this.getCountCarrinho === 0) {
       this.$q.dialog({
         title: ';(',
@@ -72,6 +80,13 @@ export default {
         }).catch(() => {
           console.log('Não tirou')
         })
+    },
+    fazerPedido (pedido) {
+      var uid = this.$user.uid
+      this.pedido.userId = uid
+      this.pedido.itens = this.listaCarrinho
+      this.$db.ref('pedidos').push(this.pedido)
+      // Limpar o carrinho depois de fazer o pedido e mostrar uma popUp ou outra coisa pra dizer q pedido foi realizado
     }
   }
 }

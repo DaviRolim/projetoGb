@@ -23,7 +23,6 @@
             <q-btn href="#" color="blue" class="on-left" @click.prevent="adicionarItem(item)">Adicionar</q-btn>
             <q-btn href="#" color="red" class="removeLink" @click.prevent="mostra">Mostrar</q-btn>
         </div> -->
-
     </q-layout>
   </div>
 </template>
@@ -44,7 +43,6 @@ export default {
     this.$db.ref('cadastro').on('value', data => {
       const obj = data.val()
       this.listaCardapio = this.$_.map(obj, (cadastro, index) => {
-        console.log('cadastro: ' + cadastro)
         return cadastro
       })
     })
@@ -80,7 +78,6 @@ export default {
     },
     adicionarItem (item) {
       const cloned = JSON.parse(JSON.stringify(item))
-      console.log(cloned)
       this.addItem(cloned)
       // same as
       // this.$store.dispatch('example/addDespesa', this.expenses)
