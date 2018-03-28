@@ -18,6 +18,20 @@
        </q-collapsible>
     </q-list>
     </q-page-container>
+    <div v-if="listaHistorico.length === 0" class="fixed-center text-center">
+      <p>
+        <img
+          src="~assets/sad.svg"
+          style="width:30vw;max-width:150px;"
+        >
+      </p>
+      <p class="text-faded">Você ainda não realizou nenhum pedido!</p>
+      <q-btn
+        color="secondary"
+        style="width:200px;"
+        @click="$router.push('/cardapio')"
+      >Cardápio</q-btn>
+  </div>
     </q-layout>
   </div>
 </template>

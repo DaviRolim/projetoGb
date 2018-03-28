@@ -59,7 +59,8 @@ export default {
         date: moment().format('DD/MM/YYYY HH:mm:ss'),
         email: this.$user ? this.$user.email : '',
         estado: 'Aguardando confirmação', // Aguardando Confirmação, Pedido Confirmado, Em preparo, Pedido concluído
-        vlTotal: 0
+        vlTotal: 0,
+        observacao: ''
       }
     }
   },
@@ -103,12 +104,27 @@ export default {
         })
     },
     fazerPedido (pedido) {
-      var uid = this.$user.uid
-      this.pedido.userId = uid
-      this.pedido.vlTotal = this.getTotal
-      this.pedido.itens = this.listaCarrinho
-      this.$db.ref('pedidos').push(this.pedido)
-      this.esvaziaCarrinho(this.$state)
+      this.$q.dialog({
+        title: 'Observação',
+        message: 'Adicionar uma observação...',
+        prompt: {
+          model: '',
+          type: 'text' // optional
+        },
+        cancel: true,
+        color: 'secondary'})
+        .then(data => {
+          var uid = this.$user.uid
+          this.pedido.userId = uid
+          this.pedido.vlTotal = this.getTotal
+          this.pedido.itens = this.listaCarrinho
+          this.pedido.observacao = data
+          this.$db.ref('pedidos').push(this.pedido)
+          this.esvaziaCarrinho(this.$state)
+          this.$q.notify({message: 'Pedido Realizado com Sucesso', color: 'tertiary', timeout: 500, position: 'center'})
+        }).catch(() => {
+          console.log('nao digitou nada')
+        })
       // Limpar o carrinho depois de fazer o pedido e mostrar uma popUp ou outra coisa pra dizer q pedido foi realizado
     }
   }
