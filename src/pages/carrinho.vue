@@ -1,15 +1,8 @@
 <template>
   <div>
     <q-layout>
-        <q-layout-header>
-          <q-tabs glossy inverted>
-            <q-route-tab to="/cardapio" default slot="title" name="tab-1" label="Cardápio"/>
-            <q-route-tab to="/carrinho" slot="title" :count="getCountCarrinho" name="tab-2" label="Carrinho"/>
-            <q-route-tab to="/historico" slot="title" name="tab-3" label="Histórico" />
-          </q-tabs>
-
-    </q-layout-header>
-
+      <app-header></app-header>
+      <q-page-container>
        <q-list highlight inset-separator>
       <q-list-header>Carrinho</q-list-header>
       <q-item multiline v-for="(item, index) in listaCarrinho" :key="index">
@@ -24,13 +17,18 @@
       <q-btn round size="sm" color="red" icon="close" @click="removeDoCarrinho(item)"/>
        </q-item>
     </q-list>
+    </q-page-container>
 
     </q-layout>
   </div>
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import header from '../components/header'
 export default {
+  components: {
+    appHeader: header
+  },
   data () {
     return {
       listaCarrinho: []

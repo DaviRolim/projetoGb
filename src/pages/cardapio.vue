@@ -1,24 +1,8 @@
 <template>
   <div style="row justify-center width: 500px; max-width: 100vw;">
     <q-layout>
-    <q-layout-header>
- <!--     <q-toolbar
-        color="orange"
-        :glossy="$q.theme === 'mat'"
-        :inverted="$q.theme === 'ios'"
-      >
-        <q-toolbar-title>Guarana Brasil</q-toolbar-title>
-      </q-toolbar>   -->
-          <q-tabs glossy inverted>
-            <!-- Tabs - notice slot="title" -->
-            <q-route-tab to="/cardapio" default slot="title" name="tab-1" label="Cardápio"/>
-            <q-route-tab to="/carrinho" slot="title" :count="getCountCarrinho" name="tab-2" label="Carrinho"/>
-            <q-route-tab to="/historico" slot="title" name="tab-3" label="Histórico" />
-
-            <!-- Targets -->
-          </q-tabs>
-
-    </q-layout-header>
+    <app-header></app-header>
+    <q-page-container>
     <q-list highlight inset-separator>
       <q-list-header>Cardápio</q-list-header>
       <q-item multiline v-for="(item, index) in listaCardapio" :key="index">
@@ -32,6 +16,7 @@
       <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn>
        </q-item>
     </q-list>
+    </q-page-container>
         <!-- <div class="expense" v-for="(item, index) in listaCardapio" :key="index">
             <p :class="{ done: item.done }">{{ item.nmProduto }} - R$ {{ item.vlProduto }}</p>
             <p :class="{ done: item.done }">{{ item.dsProduto }}</p>
@@ -45,7 +30,11 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import header from '../components/header'
 export default {
+  components: {
+    appHeader: header
+  },
   data () {
     return {
       listaCardapio: []
