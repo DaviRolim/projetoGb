@@ -17,9 +17,7 @@
       <q-btn round size="sm" color="red" icon="close" @click="removeDoCarrinho(item)"/>
        </q-item>
     </q-list>
-    <div class="text-center">
-      TOTAL: R$ {{getTotal}}
-    </div>
+    <q-input v-model="pedido.observacao" type="textarea" clearable="true" float-label="Observação: " autofocus="true" />
     </q-page-container>
      <div v-if="!getCountCarrinho" class="fixed-center text-center">
     <p>
@@ -36,6 +34,9 @@
     >Cardápio</q-btn>
   </div>
     <q-layout-footer style="position: fixed">
+      <div class="text-center">
+        <p round-borders class="text-weight-light">TOTAL: R$ {{getTotal}}</p>
+      </div>
       <q-btn v-if="getCountCarrinho" @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
     </q-layout-footer>
     </q-layout>
@@ -104,27 +105,14 @@ export default {
         })
     },
     fazerPedido (pedido) {
-      this.$q.dialog({
-        title: 'Observação',
-        message: 'Adicionar uma observação...',
-        prompt: {
-          model: '',
-          type: 'text' // optional
-        },
-        cancel: true,
-        color: 'secondary'})
-        .then(data => {
-          var uid = this.$user.uid
-          this.pedido.userId = uid
-          this.pedido.vlTotal = this.getTotal
-          this.pedido.itens = this.listaCarrinho
-          this.pedido.observacao = data
-          this.$db.ref('pedidos').push(this.pedido)
-          this.esvaziaCarrinho(this.$state)
-          this.$q.notify({message: 'Pedido Realizado com Sucesso', color: 'tertiary', timeout: 500, position: 'center'})
-        }).catch(() => {
-          console.log('nao digitou nada')
-        })
+      var uid = this.$user.uid
+      this.pedido.userId = uid
+      this.pedido.vlTotal = this.getTotal
+      this.pedido.itens = this.listaCarrinho
+      this.$db.ref('pedidos').push(this.pedido)
+      this.esvaziaCarrinho(this.$state)
+      this.$q.notify({message: 'Pedido Realizado com Sucesso', color: 'tertiary', timeout: 500, position: 'center'})
+
       // Limpar o carrinho depois de fazer o pedido e mostrar uma popUp ou outra coisa pra dizer q pedido foi realizado
     }
   }
