@@ -2,9 +2,9 @@
   <div>
     <q-layout>
       <app-header></app-header>
-      <q-page-container>
+      <q-page-container v-if="getCountCarrinho">
        <q-list highlight inset-separator>
-      <q-list-header v-if="getCountCarrinho">Carrinho</q-list-header>
+      <q-list-header >Carrinho</q-list-header>
       <q-item multiline v-for="(item, index) in listaCarrinho" :key="index">
         <!-- <q-item-side avatar="statics/boy-avatar.png" /> -->
         <q-item-main
@@ -17,9 +17,12 @@
       <q-btn round size="sm" color="red" icon="close" @click="removeDoCarrinho(item)"/>
        </q-item>
     </q-list>
+    <div class="text-center">
+      TOTAL: R$ {{getTotal}}
+    </div>
     </q-page-container>
     <q-layout-footer>
-      <q-btn @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
+      <q-btn :class="{ disabled: getCountCarrinho == 0? true : false }" @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
     </q-layout-footer>
     </q-layout>
   </div>
@@ -40,13 +43,15 @@ export default {
         itens: [],
         userId: '',
         date: moment().format('DD/MM/YYYY HH:mm:ss'),
-        email: this.$user.email,
-        estado: 'Aguardando confirmação' // Aguardando Confirmação, Pedido Confirmado, Em preparo, Pedido concluído
+        email: this.$user ? this.$user.email : '',
+        estado: 'Aguardando confirmação', // Aguardando Confirmação, Pedido Confirmado, Em preparo, Pedido concluído
+        vlTotal: 0
       }
     }
   },
   mounted () {
     this.listaCarrinho = this.getCarrinho
+    this.pedido.vlTotal = this.getTotal
     if (this.getCountCarrinho === 0) {
       this.$q.dialog({
         title: ';(',
@@ -57,7 +62,8 @@ export default {
   computed: {
     ...mapGetters('example', [
       'getCarrinho',
-      'getCountCarrinho'
+      'getCountCarrinho',
+      'getTotal'
     ])
   },
   methods: {
@@ -66,7 +72,8 @@ export default {
     },
     ...mapActions('example', [
       'addItem',
-      'removeItem'
+      'removeItem',
+      'esvaziaCarrinho'
     ]),
     removeDoCarrinho (item) {
       this.$q.dialog({
@@ -84,8 +91,10 @@ export default {
     fazerPedido (pedido) {
       var uid = this.$user.uid
       this.pedido.userId = uid
+      this.pedido.vlTotal = this.getTotal
       this.pedido.itens = this.listaCarrinho
       this.$db.ref('pedidos').push(this.pedido)
+      this.esvaziaCarrinho(this.$state)
       // Limpar o carrinho depois de fazer o pedido e mostrar uma popUp ou outra coisa pra dizer q pedido foi realizado
     }
   }

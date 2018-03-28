@@ -4,31 +4,25 @@
     <app-header></app-header>
     <q-page-container>
     <q-list highlight inset-separator>
-      <q-list-header v-if="getCountCarrinho">Historico</q-list-header>
-      <q-item multiline v-for="(item, index) in listaCardapio" :key="index">
+      <q-list-header>Historico</q-list-header>
+      <q-collapsible multiline v-for="(item, index) in listaHistorico" :key="index"
+       :label="labelCollapse(item)"
+       :sublabel="item.date">
         <!-- <q-item-side avatar="statics/boy-avatar.png" /> -->
-        <q-item-main
-          :label=item.nmProduto
-          label-lines="1"
-          :sublabel=item.dsProduto
-          sublabel-lines="2"
-        />
-      <q-btn @click="dialogCarrinho(item)"> <q-item-side text-color="red" tag right :stamp=valorProduto(item.vlProduto) /> </q-btn>
-       </q-item>
+        <q-item-main>
+          <q-item-tile label>Produtos: </q-item-tile>
+          <q-item-tile sublabel lines="2" v-for="(prod, index) in item.itens" :key="index">
+            <span>{{prod.nmProduto}} - {{prod.vlProduto}}</span>
+          </q-item-tile>
+        </q-item-main>
+       </q-collapsible>
     </q-list>
     </q-page-container>
-        <!-- <div class="expense" v-for="(item, index) in listaCardapio" :key="index">
-            <p :class="{ done: item.done }">{{ item.nmProduto }} - R$ {{ item.vlProduto }}</p>
-            <p :class="{ done: item.done }">{{ item.dsProduto }}</p>
-            <q-btn href="#" color="blue" class="on-left" @click.prevent="adicionarItem(item)">Adicionar</q-btn>
-            <q-btn href="#" color="red" class="removeLink" @click.prevent="mostra">Mostrar</q-btn>
-        </div> -->
-
     </q-layout>
   </div>
 </template>
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 import header from '../components/header'
 export default {
   components: {
@@ -36,19 +30,16 @@ export default {
   },
   data () {
     return {
-      listaCarrinho: [],
-      carrinhoZero: 0
+      listaHistorico: []
     }
   },
   mounted () {
-    console.log(this.getCarrinho)
-    console.log(this.getCountCarrinho)
-    if (this.getCountCarrinho === 0) {
-      this.$q.dialog({
-        title: ';(',
-        message: 'Você ainda não fez compra'
+    this.$db.ref('pedidos').orderByChild('userId').equalTo(this.$user.uid).on('value', data => {
+      const obj = data.val()
+      this.listaHistorico = this.$_.map(obj, (pedidos, index) => {
+        return pedidos
       })
-    }
+    })
   },
   computed: {
     ...mapGetters('example', [
@@ -60,26 +51,9 @@ export default {
     valorProduto (valor) {
       return 'R$ ' + valor
     },
-    ...mapActions('example', [
-      'addItem',
-      'removeItem'
-    ]),
-    removeDoCarrinho (item) {
-      this.$q.dialog({
-        title: 'Confirmação',
-        message: 'Deseja retirar esse item do carrinho?',
-        ok: 'Sim',
-        cancel: 'Não'})
-        .then(() => {
-          this.$q.notify({message: 'Item retirado do carrinho', type: 'positive'})
-          this.removeItem(item)
-        }).catch(() => {
-          console.log('Não tirou')
-        })
+    labelCollapse (item) {
+      return item.estado + ' - Total: R$ ' + item.vlTotal
     }
-  },
-  created: () => {
-    this.listaCarrinho = this.getCarrinho
   }
 }
 </script>

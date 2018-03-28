@@ -1,5 +1,4 @@
 export const ADD_ITEM = ({ state }, obj) => {
-  console.log(state)
   state.carrinho.unshift(obj)
 }
 

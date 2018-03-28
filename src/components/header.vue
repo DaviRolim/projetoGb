@@ -1,5 +1,5 @@
 <template>
-   <q-layout-header>
+   <q-layout-header style="position: fixed">
      <q-toolbar
         color="orange"
         :glossy="$q.theme === 'mat'"
@@ -49,8 +49,11 @@ export default {
       'getCountCarrinho'
     ]),
     getUser () {
-      console.log(this.$user.email.split('@')[0])
-      return this.$user.email.split('@')[0]
+      if (this.$user) {
+        return this.$user.email.split('@')[0]
+      } else {
+        return ''
+      }
     }
   }
 }
