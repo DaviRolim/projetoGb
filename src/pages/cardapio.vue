@@ -3,9 +3,16 @@
     <q-layout>
     <app-header></app-header>
     <q-page-container>
+      <q-select
+      stack-label="Filtre por tipo"
+      inverted-light
+      color="deep-purple-1"
+      separator
+      v-model="select"
+      :options="options"
+      />
     <q-list highlight inset-separator>
-      <q-list-header>Cardápio</q-list-header>
-      <q-item multiline v-for="(item, index) in listaCardapio" :key="index">
+      <q-item multiline v-for="(item, index) in listaFiltro" :key="index">
         <!-- <q-item-side avatar="statics/boy-avatar.png" /> -->
         <q-item-main
           :label=item.nmProduto
@@ -36,7 +43,27 @@ export default {
   },
   data () {
     return {
-      listaCardapio: []
+      listaCardapio: [],
+      listaFiltro: [],
+      select: 'todos',
+      options: [
+        {
+          label: 'Todos',
+          value: 'todos'
+        },
+        {
+          label: 'Sanduiches',
+          value: 'sanduiche'
+        },
+        {
+          label: 'Baguetes',
+          value: 'baguete'
+        },
+        {
+          label: 'Sugestões',
+          value: 'sugestao'
+        }
+      ]
     }
   },
   mounted () {
@@ -45,7 +72,23 @@ export default {
       this.listaCardapio = this.$_.map(obj, (cadastro, index) => {
         return cadastro
       })
+      const cardapioClone = this.$_.clone(this.listaCardapio)
+      this.listaFiltro = cardapioClone
     })
+  },
+  watch: {
+    select (value) {
+      const cardapioClone = this.$_.clone(this.listaCardapio)
+      if (value === 'todos') {
+        this.listaFiltro = cardapioClone
+      } else if (value === 'sanduiche') {
+        this.listaFiltro = cardapioClone.filter((item) => item.gpProduto === value)
+      } else if (value === 'baguete') {
+        this.listaFiltro = cardapioClone.filter((item) => item.gpProduto === value)
+      } else if (value === 'sugestao') {
+        this.listaFiltro = cardapioClone.filter((item) => item.gpProduto === value)
+      }
+    }
   },
   computed: {
     ...mapGetters('example', [
@@ -79,7 +122,7 @@ export default {
     adicionarItem (item) {
       const cloned = JSON.parse(JSON.stringify(item))
       this.addItem(cloned)
-      // console.log(this.listaCardapio.filter(item => item.gpProduto === 'sanduiche'))
+      // console.log(this.listaCardapio.filter((algo) => algo.gpProduto === 'sanduiche'))
     },
     mostra () {
       // console.log(this.listaCardapio[0].nmProduto)

@@ -56,6 +56,7 @@ export default {
       this.listaHistorico = this.$_.map(obj, (pedidos, index) => {
         return pedidos
       })
+      this.listaHistorico.reverse()
     })
   },
   computed: {
