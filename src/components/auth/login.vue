@@ -22,7 +22,7 @@
               class="field"
               icon-color="deep-purple-1"
             >
-            <q-input type="email" v-model="email" inverted color="deep-purple-1" placeholder="E-mail" />
+            <q-input type="email" v-model="email"  color="deep-purple-1" placeholder="E-mail" />
           </q-field>
           <q-field
           float-label="Senha"
@@ -30,7 +30,7 @@
           class="field"
           icon-color="deep-purple-1"
           >
-            <q-input type="password" inverted color="deep-purple-1" v-model="password" placeholder="Password" />
+            <q-input type="password" color="deep-purple-1" v-model="password" placeholder="Password" />
           </q-field>
           <br>
           <q-btn v-if="!signUp" color="brown-3" icon-right="send" class="full-width" label="Entrar" />

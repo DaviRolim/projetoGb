@@ -79,8 +79,7 @@ export default {
     adicionarItem (item) {
       const cloned = JSON.parse(JSON.stringify(item))
       this.addItem(cloned)
-      // same as
-      // this.$store.dispatch('example/addDespesa', this.expenses)
+      // console.log(this.listaCardapio.filter(item => item.gpProduto === 'sanduiche'))
     },
     mostra () {
       // console.log(this.listaCardapio[0].nmProduto)
