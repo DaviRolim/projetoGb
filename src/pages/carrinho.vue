@@ -30,7 +30,7 @@
     </p>
     <p class="text-faded">O Carrinho está vazio</p>
     <q-btn
-      color="secondary"
+      color="orange-4"
       style="width:200px;"
       @click="$router.push('/cardapio')"
     >Cardápio</q-btn>
