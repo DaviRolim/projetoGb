@@ -7,7 +7,9 @@
       <q-list-header>Historico</q-list-header>
       <q-collapsible multiline v-for="(item, index) in listaHistorico" :key="index"
        :label="labelCollapse(item)"
-       :sublabel="item.date">
+       :sublabel="item.date"
+       :header-class="colorStatus(item)"
+       >
         <!-- <q-item-side avatar="statics/boy-avatar.png" /> -->
         <q-item-main>
           <q-item-tile label>Produtos: </q-item-tile>
@@ -68,6 +70,16 @@ export default {
     },
     labelCollapse (item) {
       return item.estado + ' - Total: R$ ' + item.vlTotal
+    },
+    colorStatus (item) {
+      if (item.estado === 'Aguardando confirmação') {
+        console.log(item.estado)
+        return 'text-red'
+      } else if (item.estado === 'Pedido em andamento') {
+        return 'text-blue'
+      } else if (item.estado === 'Finalizado') {
+        return 'text-green'
+      }
     }
   }
 }

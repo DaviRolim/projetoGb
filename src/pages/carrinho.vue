@@ -15,7 +15,7 @@
       <q-btn round size="sm" color="red" icon="close" @click="removeDoCarrinho(item)"/>
        </q-item>
     </q-list>
-    <q-input v-model="pedido.observacao" type="textarea" color="orange" :clearable=true float-label="Observação: " autofocus="true" />
+    <q-input v-model="pedido.observacao" type="textarea" color="orange" :clearable=true float-label="Observação: "/>
     <div class="text-center">
       <p round-borders class="text-weight-light">TOTAL: R$ {{getTotal}}</p>
     </div>
@@ -64,12 +64,6 @@ export default {
   mounted () {
     this.listaCarrinho = this.getCarrinho
     this.pedido.vlTotal = this.getTotal
-    // if (this.getCountCarrinho === 0) {
-    //   this.$q.dialog({
-    //     title: ';(',
-    //     message: 'O carrinho está vazio.'
-    //   })
-    // }
   },
   computed: {
     ...mapGetters('example', [
