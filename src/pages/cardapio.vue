@@ -62,6 +62,26 @@ export default {
         {
           label: 'Sugestões',
           value: 'sugestao'
+        },
+        {
+          label: 'Vitaminas',
+          value: 'vitamina'
+        },
+        {
+          label: 'Maltados',
+          value: 'maltado'
+        },
+        {
+          label: 'Energéticos',
+          value: 'energetico'
+        },
+        {
+          label: 'Saladas',
+          value: 'salada'
+        },
+        {
+          label: 'Sucos',
+          value: 'suco'
         }
       ]
     }
@@ -81,11 +101,7 @@ export default {
       const cardapioClone = this.$_.clone(this.listaCardapio)
       if (value === 'todos') {
         this.listaFiltro = cardapioClone
-      } else if (value === 'sanduiche') {
-        this.listaFiltro = cardapioClone.filter((item) => item.gpProduto === value)
-      } else if (value === 'baguete') {
-        this.listaFiltro = cardapioClone.filter((item) => item.gpProduto === value)
-      } else if (value === 'sugestao') {
+      } else {
         this.listaFiltro = cardapioClone.filter((item) => item.gpProduto === value)
       }
     }
