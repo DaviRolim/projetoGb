@@ -57,7 +57,8 @@ export default {
         email: this.$user ? this.$user.email : '',
         estado: 'Aguardando confirmação', // Aguardando Confirmação, Pedido Confirmado, Em preparo, Pedido concluído
         vlTotal: 0,
-        observacao: ''
+        observacao: '',
+        id: ''
       }
     }
   },
