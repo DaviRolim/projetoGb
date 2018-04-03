@@ -22,7 +22,7 @@
           <q-tabs inverted color="orange-4">
             <!-- Tabs - notice slot="title" -->
             <q-route-tab to="/cardapio" default slot="title" name="tab-1" label="Cardápio"/>
-            <q-route-tab to="/carrinho" slot="title" :count="getCountCarrinho" name="tab-2" label="Carrinho"/>
+            <q-route-tab to="/carrinho"  slot="title" :count="getCountCarrinho" name="tab-2" label="Carrinho"/>
             <q-route-tab to="/historico" slot="title" name="tab-3" label="Histórico" />
 
             <!-- Targets -->
@@ -40,7 +40,10 @@ export default {
     },
     ...mapActions('example', [
       'esvaziaCarrinho'
-    ])
+    ]),
+    show (event) {
+      console.log(event)
+    }
   },
   computed: {
     ...mapGetters('example', [

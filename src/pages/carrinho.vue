@@ -1,8 +1,9 @@
 <template>
   <div>
-    <q-layout>
+    <q-layout v-touch-swipe.horizontal="changeSwipe">
       <app-header></app-header>
-      <q-page-container v-if="getCountCarrinho">
+      <q-page-container>
+      <div v-if="getCountCarrinho">
        <q-list highlight inset-separator style="margin-bottom: 40px">
       <q-list-header >Carrinho</q-list-header>
       <q-item multiline v-for="(item, index) in listaCarrinho" :key="index">
@@ -19,8 +20,8 @@
     <div class="text-center">
       <p round-borders class="text-weight-light">TOTAL: R$ {{getTotal}}</p>
     </div>
-    <q-btn v-if="getCountCarrinho" @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
-    </q-page-container>
+    <q-btn @click="fazerPedido" color="secondary" glossy rounded class="full-width">Fazer Pedido </q-btn>
+      </div>
      <div v-if="!getCountCarrinho" class="fixed-center text-center">
     <p>
       <img
@@ -35,6 +36,7 @@
       @click="$router.push('/cardapio')"
     >Cardápio</q-btn>
   </div>
+    </q-page-container>
   </q-layout>
   </div>
 </template>
@@ -76,6 +78,13 @@ export default {
   methods: {
     valorProduto (valor) {
       return 'R$ ' + valor
+    },
+    changeSwipe (obj) {
+      if (obj.direction === 'right') {
+        this.$router.push('/cardapio')
+      } else if (obj.direction === 'left') {
+        this.$router.push('/historico')
+      }
     },
     ...mapActions('example', [
       'addItem',

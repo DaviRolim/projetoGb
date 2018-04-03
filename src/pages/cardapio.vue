@@ -1,6 +1,6 @@
 <template>
   <div style="row justify-center width: 500px; max-width: 100vw;">
-    <q-layout>
+    <q-layout v-touch-swipe.horizontal="changeSwipe">
     <app-header></app-header>
     <q-page-container>
       <q-select
@@ -116,6 +116,11 @@ export default {
     ...mapActions('example', [
       'addItem'
     ]),
+    changeSwipe (obj) {
+      if (obj.direction === 'left') {
+        this.$router.push('/carrinho')
+      }
+    },
     retornaConcat (obj) {
       return obj.nmProduto + '- R$' + obj.vlProduto
     },

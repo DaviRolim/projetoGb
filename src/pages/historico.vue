@@ -1,6 +1,6 @@
 <template>
   <div style="row justify-center width: 500px; max-width: 100vw;">
-    <q-layout>
+    <q-layout v-touch-swipe.horizontal="changeSwipe">
     <app-header></app-header>
     <q-page-container>
     <q-list highlight inset-separator>
@@ -68,6 +68,11 @@ export default {
   methods: {
     valorProduto (valor) {
       return 'R$ ' + valor
+    },
+    changeSwipe (obj) {
+      if (obj.direction === 'right') {
+        this.$router.push('/carrinho')
+      }
     },
     labelCollapse (item) {
       return item.estado + ' - Total: R$ ' + item.vlTotal

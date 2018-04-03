@@ -78,7 +78,8 @@ module.exports = function (ctx) {
         'QSelect'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'TouchSwipe'
       ],
       // Quasar plugins
       plugins: [
