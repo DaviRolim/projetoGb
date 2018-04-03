@@ -110,8 +110,9 @@ export default {
       this.pedido.vlTotal = this.getTotal
       this.pedido.itens = this.listaCarrinho
       this.$db.ref('pedidos').push(this.pedido)
-      this.esvaziaCarrinho(this.$state)
       this.$q.notify({message: 'Pedido Realizado com Sucesso', color: 'tertiary', timeout: 500, position: 'center'})
+      this.$router.push('/historico')
+      this.esvaziaCarrinho(this.$state)
 
       // Limpar o carrinho depois de fazer o pedido e mostrar uma popUp ou outra coisa pra dizer q pedido foi realizado
     }
